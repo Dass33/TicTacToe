@@ -1,0 +1,36 @@
+h1 {
+	text-align: center;
+}
+
+.board {
+	margin: auto;
+	aspect-ratio: 1;
+	height: 80vh;
+	border-spacing: 0.8vh;
+	table-layout: fixed;
+}
+
+.boardTd {
+	border: 7px solid black;
+	padding: 1%;
+	background-color: whitesmoke;
+}
+
+.boardImg {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+
+footer {
+	text-align: center;
+}
+
+.cantPlace {
+	transition-duration: 0.3s;
+}
+
+.cantPlace:active {
+	transform: scale(0.7);
+}

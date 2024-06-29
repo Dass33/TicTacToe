@@ -1,0 +1,14 @@
+{
+  "name": "tictactoe",
+  "version": "1.0.0",
+  "description": "A simple web app with TypeScript",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "Your Name",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.0.0"
+  }
+}
