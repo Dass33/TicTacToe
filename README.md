@@ -6,3 +6,4 @@ List of features I want to implement:
     counter of wins, local storage
 
 
+refactor?
