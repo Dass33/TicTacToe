@@ -51,7 +51,7 @@ class PlayerTurns {
 
 			if (this.symbolStreak >= this.streakToWin) {
 				winnArr.unshift([i - (this.symbolStreak - 1), rowNum]);
-				this.endGame(winnArr, this.lastElement);
+				this.endGame(winnArr, this.lastElement, arr);
 			}
 
 			this.lastElement = inRowItem;
@@ -78,7 +78,7 @@ class PlayerTurns {
 
 			if (this.symbolStreak >= this.streakToWin) {
 				winnArr.unshift([columnNum, i - (this.symbolStreak - 1)]);
-				this.endGame(winnArr, this.lastElement);
+				this.endGame(winnArr, this.lastElement, arr);
 			}
 
 			this.lastElement = inColumnItem;
@@ -108,7 +108,7 @@ class PlayerTurns {
 
 				if (this.symbolStreak >= this.streakToWin) {
 					winnArr.unshift([columnNum, i - (this.symbolStreak - 1)]);
-					this.endGame(winnArr, this.lastElement);
+					this.endGame(winnArr, this.lastElement, arr);
 				}
 
 				this.lastElement = inDiagonalItem;
@@ -140,7 +140,7 @@ class PlayerTurns {
 
 				if (this.symbolStreak >= this.streakToWin) {
 					winnArr.unshift([columnNum, i - (this.symbolStreak - 1)]);
-					this.endGame(winnArr, this.lastElement);
+					this.endGame(winnArr, this.lastElement, arr);
 				}
 
 				this.lastElement = inDiagonalItem;
@@ -150,10 +150,13 @@ class PlayerTurns {
 
 	}
 
-	endGame(winArr: [number, number][], winner: string) {
+	endGame(winArr: [number, number][], winner: string, grid: grid) {
 		alert("Winer is: " + winner);
 		this.gameIsGoing = false;
 		//finish here//
+		winArr.forEach(([row, column]) => {
+			grid[row][column]
+		});
 	}
 
 }
