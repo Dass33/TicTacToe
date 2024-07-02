@@ -33,7 +33,8 @@ class PlayerTurns {
 		this.turnOf++;
 	}
 
-	winRowChech(arr: grid, rowNum: number) {
+	winRowChech(arr: grid, rowNum: number, rowImageArr: HTMLImageElement[][]) {
+		const row = 0;
 		let winnArr: [number, number][];
 		let rowColumn: [column: number, row: number];
 		this.symbolStreak = 1;
@@ -51,7 +52,7 @@ class PlayerTurns {
 
 			if (this.symbolStreak >= this.streakToWin) {
 				winnArr.unshift([i - (this.symbolStreak - 1), rowNum]);
-				this.endGame(winnArr, this.lastElement);
+				this.endGame(winnArr, rowImageArr, this.lastElement);
 			}
 
 			this.lastElement = inRowItem;
@@ -59,7 +60,8 @@ class PlayerTurns {
 		this.lastElement = "";
 	}
 
-	winColumnChech(arr: grid, columnNum: number) {
+	winColumnChech(arr: grid, columnNum: number, rowImageArr: HTMLImageElement[][]) {
+		const column = 1;
 		let winnArr: [number, number][] = [];
 		let rowColumn: [column: number, row: number];
 		this.symbolStreak = 1;
@@ -78,7 +80,7 @@ class PlayerTurns {
 
 			if (this.symbolStreak >= this.streakToWin) {
 				winnArr.unshift([columnNum, i - (this.symbolStreak - 1)]);
-				this.endGame(winnArr, this.lastElement);
+				this.endGame(winnArr, rowImageArr, this.lastElement);
 			}
 
 			this.lastElement = inColumnItem;
@@ -86,7 +88,8 @@ class PlayerTurns {
 		this.lastElement = "";
 	}
 
-	winDiagonalRightCheck(arr: grid, columnNum: number, rowNum: number) {
+	winDiagonalRightCheck(arr: grid, columnNum: number, rowNum: number, rowImageArr: HTMLImageElement[][]) {
+		const diagonalRight = 2
 		let winnArr: [number, number][] = [];
 		let rowColumn: [column: number, row: number];
 		this.symbolStreak = 1;
@@ -98,7 +101,7 @@ class PlayerTurns {
 				const inDiagonalItem = arr[currRow][currColumn];
 				if (this.lastElement == inDiagonalItem && this.lastElement !== undefined) {
 					this.symbolStreak++;
-					rowColumn = [currRow, currColumn];
+					rowColumn = [currColumn, currRow];
 					winnArr.push(rowColumn);
 				}
 				else {
@@ -107,8 +110,8 @@ class PlayerTurns {
 				}
 
 				if (this.symbolStreak >= this.streakToWin) {
-					winnArr.unshift([columnNum, i - (this.symbolStreak - 1)]);
-					this.endGame(winnArr, this.lastElement);
+					winnArr.unshift([i - (this.symbolStreak - 1), rowNum + i - columnNum - (this.symbolStreak - 1)]);
+					this.endGame(winnArr, rowImageArr, this.lastElement);
 				}
 
 				this.lastElement = inDiagonalItem;
@@ -118,7 +121,8 @@ class PlayerTurns {
 
 	}
 
-	winDiagonalLeftCheck(arr: grid, columnNum: number, rowNum: number) {
+	winDiagonalLeftCheck(arr: grid, columnNum: number, rowNum: number, rowImageArr: HTMLImageElement[][]) {
+		const diagonalLeft = 3;
 		let winnArr: [number, number][] = [];
 		let rowColumn: [column: number, row: number];
 		this.symbolStreak = 1;
@@ -130,7 +134,7 @@ class PlayerTurns {
 				const inDiagonalItem = arr[currRow][currColumn];
 				if (this.lastElement == inDiagonalItem && this.lastElement !== undefined) {
 					this.symbolStreak++;
-					rowColumn = [currRow, currColumn];
+					rowColumn = [currColumn, currRow];
 					winnArr.push(rowColumn);
 				}
 				else {
@@ -139,10 +143,9 @@ class PlayerTurns {
 				}
 
 				if (this.symbolStreak >= this.streakToWin) {
-					winnArr.unshift([columnNum, i - (this.symbolStreak - 1)]);
-					this.endGame(winnArr, this.lastElement);
+					winnArr.unshift([(this.boardSize - i + this.symbolStreak - 1), (columnNum + rowNum + i) - this.boardSize - (this.symbolStreak - 1)]);
+					this.endGame(winnArr, rowImageArr, this.lastElement);
 				}
-
 				this.lastElement = inDiagonalItem;
 			}
 		}
@@ -150,10 +153,13 @@ class PlayerTurns {
 
 	}
 
-	endGame(winArr: [number, number][], winner: string) {
-		alert("Winer is: " + winner);
+	endGame(winArr: [number, number][], grid: HTMLImageElement[][], winner: string) {
+		// alert("Winer is: " + winner);
+
 		this.gameIsGoing = false;
-		//finish here//
+		winArr.forEach(([column, row]) => {
+			grid[row][column].src = `./img/${winner}Win.svg`;
+		});
 	}
 
 }
@@ -163,6 +169,7 @@ const size = 8;
 const symbolsToWin = 4;
 const playerTurn = new PlayerTurns(symbolsToWin, size);
 const gridArr: grid = [];
+const imageArr: HTMLImageElement[][] = [];
 
 let rowNum = 0;
 for (let i = 0; i < size; i++) {
@@ -170,6 +177,7 @@ for (let i = 0; i < size; i++) {
 	tr.classList.add("boardTr");
 
 	const rowArr: Array<string> = [];
+	const rowImageArr: HTMLImageElement[] = [];
 	for (let columnNum = 0; columnNum < size; columnNum++) {
 		const td = document.createElement("td");
 		td.classList.add("boardTd");
@@ -182,11 +190,12 @@ for (let i = 0; i < size; i++) {
 		((currentRowNum) => {
 			td.addEventListener("click", () => {
 				playerTurn.placeOX(img);
-				rowArr[columnNum] = (img.getAttribute("symbol")!);
-				playerTurn.winRowChech(gridArr, currentRowNum);
-				playerTurn.winColumnChech(gridArr, columnNum);
-				playerTurn.winDiagonalRightCheck(gridArr, columnNum, currentRowNum);
-				playerTurn.winDiagonalLeftCheck(gridArr, columnNum, currentRowNum);
+				rowArr[columnNum] = img.getAttribute("symbol")!;
+				rowImageArr[columnNum] = img;
+				playerTurn.winRowChech(gridArr, currentRowNum, imageArr);
+				playerTurn.winColumnChech(gridArr, columnNum, imageArr);
+				playerTurn.winDiagonalRightCheck(gridArr, columnNum, currentRowNum, imageArr);
+				playerTurn.winDiagonalLeftCheck(gridArr, columnNum, currentRowNum, imageArr);
 			});
 		})(rowNum);
 
@@ -196,6 +205,7 @@ for (let i = 0; i < size; i++) {
 		tr.appendChild(td);
 	}
 	gridArr.push(rowArr);
+	imageArr.push(rowImageArr);
 	board?.appendChild(tr);
 	rowNum++;
 }
