@@ -1,0 +1,10 @@
+<svg width="256" height="256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+      <mask id="holeInCircle">
+        <rect width="100%" height="100%" fill="white"/>
+        <circle r="80" cx="128" cy="128" fill="black"/>
+        <rect width="80" height="60" x="15" y="50" transform="rotate(18)" fill="black"/>
+      </mask>
+    </defs>
+  <circle cx="128" cy="128" r="128" fill="red" mask="url(#holeInCircle)"/>
+</svg>
