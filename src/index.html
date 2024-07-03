@@ -7,19 +7,35 @@
     <title>TicTacToe</title>
     <link rel="icon" href="./icons/icon.png">
     <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
     <header>
         <h1>TicTacToe</h1>
+        <div class="settings">
+            <i class="fa fa-refresh fa-2x settingsIcon"></i>
+            <i class="fa fa-cog fa-2x settingsIcon"></i>
+        </div>
     </header>
     <main>
+        <div id="modalSettings" class="modal">
+            <div class="modal-content">
+                <span>How big grid do you want?</span>
+                <input type="range" id="boardSizeInput" min="3" max="16" value="8"></input>
+                <span id="boardSizeShow"></span>
+                <br>
+                <span style="font-size: 24px;">Symbols to win?</span>
+                <input type="range" id="symbolsToWinInput" min="3" max="9"></input>
+            </div>
+        </div>
         <table id="boardId" class="board"></table>
     </main>
     <footer>
         <p>&copy; 2024 TicTacToe</p>
     </footer>
     <script src="../dist/maint.js"></script>
+    <script src="../dist/modal.js"></script>
 </body>
 
 </html>

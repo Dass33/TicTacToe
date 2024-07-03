@@ -19,17 +19,17 @@ class PlayerTurns {
 		this.gameIsGoing = true;
 	}
 	placeOX(img: HTMLImageElement) {
-		if (img.classList.contains("cantPlace")) return;
+		if (!img.classList.contains("canPlace")) return;
 		if (this.turnOf % 2 === 0 && this.gameIsGoing) {
 			img.src = "./img/cross.svg";
-			img.classList.add("cantPlace");
 			img.setAttribute("symbol", "cross");
 		}
 		else if (this.gameIsGoing) {
 			img.src = "./img/circle.svg";
-			img.classList.add("cantPlace");
 			img.setAttribute("symbol", "circle");
 		}
+		img.classList.add("cantPlace");
+		img.classList.remove("canPlace");
 		this.turnOf++;
 	}
 
@@ -155,7 +155,6 @@ class PlayerTurns {
 
 	endGame(winArr: [number, number][], grid: HTMLImageElement[][], winner: string) {
 		// alert("Winer is: " + winner);
-
 		this.gameIsGoing = false;
 		winArr.forEach(([column, row]) => {
 			grid[row][column].src = `./img/${winner}Win.svg`;
@@ -165,8 +164,16 @@ class PlayerTurns {
 }
 
 const board = document.getElementById("boardId");
-const size = 8;
-const symbolsToWin = 4;
+
+const boardSizeInput = localStorage.getItem("boardSize");
+let size;
+boardSizeInput != undefined ? size = parseInt(boardSizeInput) : size = 8;
+
+const symbolsToWinInput = localStorage.getItem("symbolsToWinInput");
+let symbolsToWin;
+symbolsToWinInput != undefined ?
+	symbolsToWin = parseInt(symbolsToWinInput) : symbolsToWin = 4;
+
 const playerTurn = new PlayerTurns(symbolsToWin, size);
 const gridArr: grid = [];
 const imageArr: HTMLImageElement[][] = [];
@@ -184,6 +191,7 @@ for (let i = 0; i < size; i++) {
 		const img = document.createElement("img");
 		img.src = "./img/square.svg";
 		img.setAttribute("symbol", "square");
+		img.classList.add("canPlace");
 
 		//Immediately Invoked Function Expression, creates a new scope for each iteration
 		//important, because the final rowNum would be used
