@@ -3,15 +3,13 @@ const modal = document.getElementById("modalSettings");
 const btn = document.getElementsByClassName("fa-cog");
 const refresh = document.getElementsByClassName("fa-refresh");
 const sizeInputElement = document.getElementById("boardSizeInput");
-const symbolsToWinElement = document.getElementById("symbolsToWinInput");
-sizeInputElement === null || sizeInputElement === void 0 ? void 0 : sizeInputElement.addEventListener("input", () => {
-    //implement here updatning of span which shows selected num
-    updateSize();
-});
-symbolsToWinElement === null || symbolsToWinElement === void 0 ? void 0 : symbolsToWinElement.addEventListener("input", () => {
-    //implement here updatning of span which shows selected num
-    updateSymbolsToWin();
-});
+const sizeShowElement = document.getElementById("boardSizeShow");
+const toWinInputElement = document.getElementById("symbolsToWinInput");
+const toWinShowElement = document.getElementById("symbolsToWinShow");
+updateSize();
+updateSymbolsToWin();
+sizeInputElement === null || sizeInputElement === void 0 ? void 0 : sizeInputElement.addEventListener("input", updateSize);
+toWinInputElement === null || toWinInputElement === void 0 ? void 0 : toWinInputElement.addEventListener("input", updateSymbolsToWin);
 const arrBtn = Array.from(btn);
 arrBtn.forEach(element => {
     element.addEventListener("click", () => {
@@ -31,11 +29,18 @@ window.onclick = function (event) {
 };
 function updateSize() {
     if (sizeInputElement != undefined) {
+        if (parseInt(sizeInputElement.value) > 9) {
+            sizeShowElement.innerText = sizeInputElement.value;
+        }
+        else {
+            sizeShowElement.innerText = "0" + sizeInputElement.value;
+        }
         localStorage.setItem("boardSize", sizeInputElement.value);
     }
 }
 function updateSymbolsToWin() {
-    if (symbolsToWinElement != undefined) {
-        localStorage.setItem("symbolsToWinInput", symbolsToWinElement.value);
+    if (toWinInputElement != undefined) {
+        toWinShowElement.innerText = "0" + toWinInputElement.value;
+        localStorage.setItem("symbolsToWinInput", toWinInputElement.value);
     }
 }

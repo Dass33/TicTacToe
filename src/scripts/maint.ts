@@ -143,7 +143,8 @@ class PlayerTurns {
 				}
 
 				if (this.symbolStreak >= this.streakToWin) {
-					winnArr.unshift([(this.boardSize - i + this.symbolStreak - 1), (columnNum + rowNum + i) - this.boardSize - (this.symbolStreak - 1)]);
+					winnArr.unshift([(this.boardSize - i + this.symbolStreak - 1),
+					(columnNum + rowNum + i) - this.boardSize - (this.symbolStreak - 1)]);
 					this.endGame(winnArr, rowImageArr, this.lastElement);
 				}
 				this.lastElement = inDiagonalItem;
@@ -154,66 +155,104 @@ class PlayerTurns {
 	}
 
 	endGame(winArr: [number, number][], grid: HTMLImageElement[][], winner: string) {
-		// alert("Winer is: " + winner);
 		this.gameIsGoing = false;
 		winArr.forEach(([column, row]) => {
 			grid[row][column].src = `./img/${winner}Win.svg`;
 		});
+		const winCounterElement = document.getElementById(`${winner}WinCounter`);
+		let winCount = localStorage.getItem(`${winner}WinCounter`);
+
+		if (winCount != undefined) {
+			winCount = (parseInt(winCount) + 1).toString();
+			localStorage.setItem(`${winner}WinCounter`, winCount);
+		}
+		else {
+			localStorage.setItem(`${winner}WinCounter`, "1");
+			winCount = localStorage.getItem(`${winner}WinCounter`);
+		}
+
+		if (winCounterElement != undefined && winCount != null) {
+			parseInt(winCount) < 10 ? winCounterElement.innerText = `:0${winCount}` : winCounterElement.innerText = `:${winCount}`;
+		}
 	}
 
 }
 
-const board = document.getElementById("boardId");
-
-const boardSizeInput = localStorage.getItem("boardSize");
-let size;
-boardSizeInput != undefined ? size = parseInt(boardSizeInput) : size = 8;
-
-const symbolsToWinInput = localStorage.getItem("symbolsToWinInput");
-let symbolsToWin;
-symbolsToWinInput != undefined ?
-	symbolsToWin = parseInt(symbolsToWinInput) : symbolsToWin = 4;
-
-const playerTurn = new PlayerTurns(symbolsToWin, size);
-const gridArr: grid = [];
-const imageArr: HTMLImageElement[][] = [];
-
-let rowNum = 0;
-for (let i = 0; i < size; i++) {
-	const tr = document.createElement("tr");
-	tr.classList.add("boardTr");
-
-	const rowArr: Array<string> = [];
-	const rowImageArr: HTMLImageElement[] = [];
-	for (let columnNum = 0; columnNum < size; columnNum++) {
-		const td = document.createElement("td");
-		td.classList.add("boardTd");
-		const img = document.createElement("img");
-		img.src = "./img/square.svg";
-		img.setAttribute("symbol", "square");
-		img.classList.add("canPlace");
-
-		//Immediately Invoked Function Expression, creates a new scope for each iteration
-		//important, because the final rowNum would be used
-		((currentRowNum) => {
-			td.addEventListener("click", () => {
-				playerTurn.placeOX(img);
-				rowArr[columnNum] = img.getAttribute("symbol")!;
-				rowImageArr[columnNum] = img;
-				playerTurn.winRowChech(gridArr, currentRowNum, imageArr);
-				playerTurn.winColumnChech(gridArr, columnNum, imageArr);
-				playerTurn.winDiagonalRightCheck(gridArr, columnNum, currentRowNum, imageArr);
-				playerTurn.winDiagonalLeftCheck(gridArr, columnNum, currentRowNum, imageArr);
-			});
-		})(rowNum);
-
-		img.classList.add("boardImg");
-
-		td.appendChild(img);
-		tr.appendChild(td);
-	}
-	gridArr.push(rowArr);
-	imageArr.push(rowImageArr);
-	board?.appendChild(tr);
-	rowNum++;
+function shouldResetScore() {
+	const resetScoreElement = document.getElementById("resetScore");
+	const winCounterElements = Array.from(document.getElementsByClassName("winCounterSpan"));
+	resetScoreElement?.addEventListener("click", () => {
+		winCounterElements.forEach(item => localStorage.setItem(item.id, "0"));
+	});
 }
+
+function startGame() {
+	const board = document.getElementById("boardId");
+
+	const boardSizeInput = localStorage.getItem("boardSize");
+	let size;
+	boardSizeInput != undefined ? size = parseInt(boardSizeInput) : size = 8;
+
+	const symbolsToWinInput = localStorage.getItem("symbolsToWinInput");
+	let symbolsToWin;
+	symbolsToWinInput != undefined ?
+		symbolsToWin = parseInt(symbolsToWinInput) : symbolsToWin = 4;
+
+	if (symbolsToWin > size) symbolsToWin = size;
+
+	const playerTurn = new PlayerTurns(symbolsToWin, size);
+	const gridArr: grid = [];
+	const imageArr: HTMLImageElement[][] = [];
+
+	const winCounterElements = Array.from(document.getElementsByClassName("winCounterSpan"));
+	winCounterElements.forEach(item => {
+		const winCounterElement = document.getElementById(item.id);
+		let winCount = localStorage.getItem(item.id);
+
+		if (winCounterElement != undefined && winCount != null) {
+			parseInt(winCount) < 10 ? winCounterElement.innerText = `:0${winCount}` : winCounterElement.innerText = `:${winCount}`;
+		}
+	});
+
+	let rowNum = 0;
+	for (let i = 0; i < size; i++) {
+		const tr = document.createElement("tr");
+		tr.classList.add("boardTr");
+
+		const rowArr: Array<string> = [];
+		const rowImageArr: HTMLImageElement[] = [];
+		for (let columnNum = 0; columnNum < size; columnNum++) {
+			const td = document.createElement("td");
+			td.classList.add("boardTd");
+			const img = document.createElement("img");
+			img.src = "./img/square.svg";
+			img.setAttribute("symbol", "square");
+			img.classList.add("canPlace");
+
+			//Immediately Invoked Function Expression, creates a new scope for each iteration
+			((currentRowNum) => {
+				td.addEventListener("click", () => {
+					playerTurn.placeOX(img);
+					rowArr[columnNum] = img.getAttribute("symbol")!;
+					rowImageArr[columnNum] = img;
+					playerTurn.winRowChech(gridArr, currentRowNum, imageArr);
+					playerTurn.winColumnChech(gridArr, columnNum, imageArr);
+					playerTurn.winDiagonalRightCheck(gridArr, columnNum, currentRowNum, imageArr);
+					playerTurn.winDiagonalLeftCheck(gridArr, columnNum, currentRowNum, imageArr);
+				});
+			})(rowNum);
+
+			img.classList.add("boardImg");
+
+			td.appendChild(img);
+			tr.appendChild(td);
+		}
+		gridArr.push(rowArr);
+		imageArr.push(rowImageArr);
+		board?.appendChild(tr);
+		rowNum++;
+	}
+	shouldResetScore();
+}
+
+startGame();

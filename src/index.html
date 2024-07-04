@@ -12,6 +12,12 @@
 
 <body>
     <header>
+        <div class="winCounter">
+            <img src="./img/cross.svg" style="height: 20px;">
+            <span class="winCounterSpan" id="crossWinCounter">:00</span>
+            <img src="./img/circle.svg" style="height: 20px;">
+            <span class="winCounterSpan" id="circleWinCounter">:00</span>
+        </div>
         <h1>TicTacToe</h1>
         <div class="settings">
             <i class="fa fa-refresh fa-2x settingsIcon"></i>
@@ -22,11 +28,20 @@
         <div id="modalSettings" class="modal">
             <div class="modal-content">
                 <span>How big grid do you want?</span>
-                <input type="range" id="boardSizeInput" min="3" max="16" value="8"></input>
-                <span id="boardSizeShow"></span>
+                <div class="setValue">
+                    <input type="range" id="boardSizeInput" min="3" max="16" value="8"></input>
+                    <span id="boardSizeShow"></span>
+                </div>
+                <br>
                 <br>
                 <span style="font-size: 24px;">Symbols to win?</span>
-                <input type="range" id="symbolsToWinInput" min="3" max="9"></input>
+                <div class="setValue">
+                    <input type="range" id="symbolsToWinInput" min="3" max="9"></input>
+                    <span id="symbolsToWinShow"></span>
+                </div>
+                <br>
+                <br>
+                <button type="button" id="resetScore">Reset Score</button>
             </div>
         </div>
         <table id="boardId" class="board"></table>

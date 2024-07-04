@@ -12,10 +12,11 @@ header {
 	right: 2vh;
 }
 
-/* .settings:hover { */
-/* 	transition-duration: 1.5s; */
-/* 	transform: rotate(360deg); */
-/* } */
+.winCounter {
+	position: absolute;
+	left: 2vh;
+	font-size: 24px;
+}
 
 .settingsIcon:hover {
 	transition-duration: 0.5s;
@@ -78,7 +79,7 @@ footer {
 
 /* Modal Content/Box */
 .modal-content {
-	border-radius: 20px;
+	border-radius: 10px;
 	background-color: #202020e0;
 	color: #f5f5f5;
 	margin: 11% auto;
@@ -94,11 +95,33 @@ footer {
 	font-size: 24px;
 }
 
+.modal-content button {
+	font-size: 24px;
+	font-weight: normal;
+	border-radius: 5px;
+	background-color: #202020e0;
+	color: whitesmoke;
+	border: solid 3px black;
+	padding: 5px 10px;
+}
+
+.modal-content button:hover {
+	background-color: #606060e0;
+}
+
+.modal-content button:active {
+	background-color: #909090;
+}
+
 .modal-content input {
-	float: right;
+	accent-color: #646277;
 	width: 8lh;
 	margin-left: 30px;
 	margin-right: 20px;
 	font-size: 15px;
 	border-radius: 10px;
+}
+
+.modal-content .setValue {
+	float: right;
 }

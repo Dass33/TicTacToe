@@ -2,16 +2,15 @@ const modal = document.getElementById("modalSettings");
 const btn = document.getElementsByClassName("fa-cog");
 const refresh = document.getElementsByClassName("fa-refresh");
 const sizeInputElement = document.getElementById("boardSizeInput");
-const symbolsToWinElement = document.getElementById("symbolsToWinInput");
-sizeInputElement?.addEventListener("input", () => {
-	//implement here updatning of span which shows selected num
-	updateSize()
-});
+const sizeShowElement = document.getElementById("boardSizeShow");
+const toWinInputElement = document.getElementById("symbolsToWinInput");
+const toWinShowElement = document.getElementById("symbolsToWinShow");
 
-symbolsToWinElement?.addEventListener("input", () => {
-	//implement here updatning of span which shows selected num
-	updateSymbolsToWin();
-});
+updateSize();
+updateSymbolsToWin();
+
+sizeInputElement?.addEventListener("input", updateSize);
+toWinInputElement?.addEventListener("input", updateSymbolsToWin);
 
 const arrBtn = Array.from(btn);
 arrBtn.forEach(element => {
@@ -35,12 +34,19 @@ window.onclick = function(event) {
 
 function updateSize() {
 	if (sizeInputElement != undefined) {
+		if (parseInt((sizeInputElement as HTMLInputElement).value) > 9) {
+			(sizeShowElement as HTMLSpanElement).innerText = (sizeInputElement as HTMLInputElement).value;
+		}
+		else {
+			(sizeShowElement as HTMLSpanElement).innerText = "0" + (sizeInputElement as HTMLInputElement).value;
+		}
 		localStorage.setItem("boardSize", (sizeInputElement as HTMLInputElement).value);
 	}
 }
 
 function updateSymbolsToWin() {
-	if (symbolsToWinElement != undefined) {
-		localStorage.setItem("symbolsToWinInput", (symbolsToWinElement as HTMLInputElement).value);
+	if (toWinInputElement != undefined) {
+		(toWinShowElement as HTMLSpanElement).innerText = "0" + (toWinInputElement as HTMLInputElement).value;
+		localStorage.setItem("symbolsToWinInput", (toWinInputElement as HTMLInputElement).value);
 	}
 }
