@@ -1,3 +1,3 @@
 #  TicTacToe
-make responsive mobile design
-refactor?
+- make responsive mobile design
+- refactor?
