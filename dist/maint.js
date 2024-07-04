@@ -12,11 +12,11 @@ class PlayerTurns {
         if (!img.classList.contains("canPlace"))
             return;
         if (this.turnOf % 2 === 0 && this.gameIsGoing) {
-            img.src = "./img/cross.svg";
+            img.src = "./src/img/cross.svg";
             img.setAttribute("symbol", "cross");
         }
         else if (this.gameIsGoing) {
-            img.src = "./img/circle.svg";
+            img.src = "./src/img/circle.svg";
             img.setAttribute("symbol", "circle");
         }
         img.classList.add("cantPlace");
@@ -130,7 +130,7 @@ class PlayerTurns {
     endGame(winArr, grid, winner) {
         this.gameIsGoing = false;
         winArr.forEach(([column, row]) => {
-            grid[row][column].src = `./img/${winner}Win.svg`;
+            grid[row][column].src = `./img/src/${winner}Win.svg`;
         });
         const winCounterElement = document.getElementById(`${winner}WinCounter`);
         let winCount = localStorage.getItem(`${winner}WinCounter`);
@@ -186,7 +186,7 @@ function startGame() {
             const td = document.createElement("td");
             td.classList.add("boardTd");
             const img = document.createElement("img");
-            img.src = "./img/square.svg";
+            img.src = "./src/img/square.svg";
             img.setAttribute("symbol", "square");
             img.classList.add("canPlace");
             //Immediately Invoked Function Expression, creates a new scope for each iteration
