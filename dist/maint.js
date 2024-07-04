@@ -130,7 +130,7 @@ class PlayerTurns {
     endGame(winArr, grid, winner) {
         this.gameIsGoing = false;
         winArr.forEach(([column, row]) => {
-            grid[row][column].src = `./img/src/${winner}Win.svg`;
+            grid[row][column].src = `./src/img/${winner}Win.svg`;
         });
         const winCounterElement = document.getElementById(`${winner}WinCounter`);
         let winCount = localStorage.getItem(`${winner}WinCounter`);
