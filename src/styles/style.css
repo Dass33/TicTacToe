@@ -1,10 +1,74 @@
+@media only screen and (min-width: 720px) {
+	header {
+		width: 80vh;
+	}
+
+	.board {
+		width: 80vh;
+	}
+}
+
+@media only screen and (max-width: 720px) {
+	header {
+		width: 80wh;
+	}
+
+	.board {
+		width: 80wh;
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	header {
+		font-size: 16px;
+	}
+
+	.winCounter {
+		left: 2vh;
+		font-size: 24px;
+	}
+
+	.winCounter img {
+		height: 24px;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	header {
+		font-size: 14px;
+	}
+
+	.winCounter {
+		left: 2vh;
+		font-size: 16px;
+	}
+
+	.winCounter img {
+		height: 16px;
+	}
+}
+
+@media only screen and (max-width: 450px) {
+	header {
+		font-size: 10px;
+	}
+
+	.winCounter {
+		left: 2vh;
+		font-size: 14px;
+	}
+
+	.winCounter img {
+		height: 14px;
+	}
+}
+
 header {
 	position: relative;
 	display: flex;
 	margin: auto;
 	justify-content: center;
 	align-items: center;
-	width: 80vh;
 }
 
 .settings {
@@ -14,8 +78,6 @@ header {
 
 .winCounter {
 	position: absolute;
-	left: 2vh;
-	font-size: 24px;
 }
 
 .settingsIcon:hover {
@@ -26,7 +88,6 @@ header {
 .board {
 	margin: auto;
 	aspect-ratio: 1;
-	height: 80vh;
 	border-spacing: 0.8vh;
 	table-layout: fixed;
 }
