@@ -1,4 +1,4 @@
-"use strict";
+import resetScore from "./modal.js";
 class PlayerTurns {
     constructor(streakToWin, size) {
         this.turnOf = 0;
@@ -147,15 +147,11 @@ class PlayerTurns {
         }
     }
 }
-function shouldResetScore() {
-    const resetScoreElement = document.getElementById("resetScore");
-    const winCounterElements = Array.from(document.getElementsByClassName("winCounterSpan"));
-    resetScoreElement === null || resetScoreElement === void 0 ? void 0 : resetScoreElement.addEventListener("click", () => {
-        winCounterElements.forEach(item => localStorage.setItem(item.id, "0"));
-    });
-}
-function startGame() {
-    const board = document.getElementById("boardId");
+export default function startGame() {
+    const boardDiv = document.getElementById("boardDiv");
+    const board = document.createElement("table");
+    board.classList.add("board");
+    boardDiv === null || boardDiv === void 0 ? void 0 : boardDiv.appendChild(board);
     const boardSizeInput = localStorage.getItem("boardSize");
     let size;
     boardSizeInput != undefined ? size = parseInt(boardSizeInput) : size = 8;
@@ -210,6 +206,6 @@ function startGame() {
         board === null || board === void 0 ? void 0 : board.appendChild(tr);
         rowNum++;
     }
-    shouldResetScore();
+    resetScore();
 }
 startGame();

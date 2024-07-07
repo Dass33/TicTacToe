@@ -1,4 +1,4 @@
-"use strict";
+import startGame from "./maint.js";
 const modal = document.getElementById("modalSettings");
 const btn = document.getElementsByClassName("fa-cog");
 const refresh = document.getElementsByClassName("fa-refresh");
@@ -18,12 +18,11 @@ arrBtn.forEach(element => {
         }
     });
 });
-refresh[0].addEventListener("click", () => location.reload());
+refresh[0].addEventListener("click", () => restartGame());
 window.onclick = function (event) {
     if ((event).target == modal) {
         if (modal != null) {
             modal.style.display = "none";
-            location.reload();
         }
     }
 };
@@ -36,6 +35,7 @@ function updateSize() {
             sizeShowElement.innerText = "0" + sizeInputElement.value;
         }
         localStorage.setItem("boardSize", sizeInputElement.value);
+        restartGame();
     }
 }
 function updateSymbolsToWin() {
@@ -43,4 +43,22 @@ function updateSymbolsToWin() {
         toWinShowElement.innerText = "0" + toWinInputElement.value;
         localStorage.setItem("symbolsToWinInput", toWinInputElement.value);
     }
+    restartGame();
+}
+function restartGame() {
+    const boardDiv = document.getElementById("boardDiv");
+    if (boardDiv === null || boardDiv === void 0 ? void 0 : boardDiv.firstChild) {
+        boardDiv === null || boardDiv === void 0 ? void 0 : boardDiv.removeChild(boardDiv.firstChild);
+        startGame();
+    }
+}
+export default function resetScore() {
+    const resetScoreElement = document.getElementById("resetScore");
+    const winCounterElements = Array.from(document.getElementsByClassName("winCounterSpan"));
+    resetScoreElement === null || resetScoreElement === void 0 ? void 0 : resetScoreElement.addEventListener("click", () => {
+        winCounterElements.forEach(item => {
+            localStorage.setItem(item.id, "0");
+            item.innerText = ":00";
+        });
+    });
 }

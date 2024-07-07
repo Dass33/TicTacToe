@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TicTacToe</title>
-    <link rel="icon" href="./icons/icon.png">
+    <link rel="icon" href="./src/icons/icon.png">
     <link rel="stylesheet" href="./src/styles/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/00de0829d0.js" crossorigin="anonymous"></script>
@@ -49,14 +49,14 @@
                 <button type="button" id="resetScore">Reset Score</button>
             </div>
         </div>
-        <table id="boardId" class="board"></table>
+        <div id="boardDiv"></div>
     </main>
     <footer>
         <br>
         </p>
     </footer>
-    <script src="./dist/maint.js"></script>
-    <script src="./dist/modal.js"></script>
+    <script type="module" src="./dist/maint.js"></script>
+    <script type="module" src="./dist/modal.js"></script>
 </body>
 
 </html>

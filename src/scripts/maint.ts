@@ -1,3 +1,5 @@
+import resetScore from "./modal.js"
+
 interface PlayerTurns {
 	turnOf: number,
 	symbolStreak: number,
@@ -178,16 +180,11 @@ class PlayerTurns {
 
 }
 
-function shouldResetScore() {
-	const resetScoreElement = document.getElementById("resetScore");
-	const winCounterElements = Array.from(document.getElementsByClassName("winCounterSpan"));
-	resetScoreElement?.addEventListener("click", () => {
-		winCounterElements.forEach(item => localStorage.setItem(item.id, "0"));
-	});
-}
-
-function startGame() {
-	const board = document.getElementById("boardId");
+export default function startGame() {
+	const boardDiv = document.getElementById("boardDiv");
+	const board = document.createElement("table");
+	board.classList.add("board");
+	boardDiv?.appendChild(board);
 
 	const boardSizeInput = localStorage.getItem("boardSize");
 	let size;
@@ -252,7 +249,7 @@ function startGame() {
 		board?.appendChild(tr);
 		rowNum++;
 	}
-	shouldResetScore();
+	resetScore();
 }
 
 startGame();
