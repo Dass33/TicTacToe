@@ -1,3 +1,2 @@
 #  TicTacToe
-- make responsive mobile design
-- refactor?
+with adujstable size and symbols to win.
